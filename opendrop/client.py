@@ -56,6 +56,7 @@ class AirDropBrowser:
 
         self.callback_add = None
         self.callback_remove = None
+        self.callback_update = None
         self.browser = None
 
     def start(self, callback_add=None, callback_remove=None):
@@ -84,6 +85,13 @@ class AirDropBrowser:
         logger.debug(f"Remove service {name}")
         if self.callback_remove is not None:
             self.callback_remove(info)
+    
+    def update_service(self, zeroconf, service_type, name):
+        info = zeroconf.get_service_info(service_type, name)
+        logger.debug(f"Update service {name}")
+        if self.callback_update is not None:
+            self.callback_update(info)
+    
 
 
 class AirDropClient:
@@ -195,7 +203,7 @@ class AirDropClient:
         """
         # Don't send an upload request if we just sent a link
         if is_url:
-            return
+            return True
 
         headers = {
             "Content-Type": "application/x-cpio",

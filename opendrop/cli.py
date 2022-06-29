@@ -67,6 +67,9 @@ class AirDropCli:
         parser.add_argument(
             "-i", "--interface", help="Which AWDL interface to use", default="awdl0"
         )
+        parser.add_argument(
+            "-k", "--psk", help="PEM pass phrase", default=None
+        )
         args = parser.parse_args(args)
 
         if args.debug:
@@ -86,6 +89,7 @@ class AirDropCli:
             computer_model=args.model,
             debug=args.debug,
             interface=args.interface,
+            psk=args.psk
         )
         self.server = None
         self.client = None
@@ -102,7 +106,9 @@ class AirDropCli:
             else:  # args.action == 'send'
                 if args.file is None:
                     parser.error("Need -f,--file when using send")
-                if not os.path.isfile(args.file) and not args.url:
+                if os.path.isdir(args.file) and not args.url:
+                    parser.error("Arguments in -f,--file cannot be a directory")
+                elif not os.path.isfile(args.file) and not args.url:
                     parser.error("File in -f,--file not found")
                 self.file = args.file
                 self.is_url = args.url

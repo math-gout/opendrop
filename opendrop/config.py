@@ -64,6 +64,7 @@ class AirDropConfig:
         phone=None,
         debug=False,
         interface=None,
+        psk=None,
     ):
         self.airdrop_dir = os.path.expanduser(airdrop_dir)
 
@@ -113,7 +114,8 @@ class AirDropConfig:
         self.key_dir = os.path.join(self.airdrop_dir, "keys")
         self.cert_file = os.path.join(self.key_dir, "certificate.pem")
         self.key_file = os.path.join(self.key_dir, "key.pem")
-
+        self.psk = psk
+        
         if not os.path.exists(self.cert_file) or not os.path.exists(self.key_file):
             logger.info("Key file or certificate does not exist")
             self.create_default_key()
@@ -160,7 +162,7 @@ class AirDropConfig:
             ssl.PROTOCOL_TLS
         )
         ctx.options |= ssl.OP_NO_TLSv1  # TLSv1.0 is insecure
-        ctx.load_cert_chain(self.cert_file, keyfile=self.key_file)
+        ctx.load_cert_chain(self.cert_file, keyfile=self.key_file, password=self.psk)
         ctx.load_verify_locations(cafile=self.root_ca_file)
         ctx.verify_mode = (
             ssl.CERT_NONE

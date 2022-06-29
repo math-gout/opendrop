@@ -173,31 +173,31 @@ class AirDropServerHandler(BaseHTTPRequestHandler):
         # sample media capabilities as recorded from macOS 10.13.3
         media_capabilities = {
             "Version": 1,
-            # don't advertise any codec/container support so we receive legacy file formats (JPEG instead of HEIF, etc.)
-            # 'Codecs': {
-            #     'hvc1': {
-            #         'Profiles': {
-            #             'VTPerProfileSupport': {
-            #                 '1': {'VTMaxPlaybackLevel': 120},
-            #                 '2': {'VTMaxPlaybackLevel': 120},
-            #                 '3': {}
-            #             },
-            #             'VTSupportedProfiles': [1, 2, 3]
-            #         }
-            #     }
-            # },
-            # 'ContainerFormats': {
-            #     'public.heif-standard': {
-            #         'HeifSubtypes': ['public.avci', 'public.heic', 'public.heif']
-            #     }
-            # },
-            # 'Vendor': {
-            #     'com.apple': {
-            #         'OSVersion': [10, 13, 3],
-            #         'OSBuildVersion': '17D102',
-            #         'LivePhotoFormatVersion': '1'
-            #     }
-            # }
+            # don't advertise any codec/container support so we receive legacy file formats (JPEG instead of HEIF, etc.) DEPRECATED COMMENT (kept just in case)
+             'Codecs': {
+                 'hvc1': {
+                     'Profiles': {
+                         'VTPerProfileSupport': {
+                             '1': {'VTMaxPlaybackLevel': 120},
+                             '2': {'VTMaxPlaybackLevel': 120},
+                             '3': {}
+                         },
+                         'VTSupportedProfiles': [1, 2, 3]
+                     }
+                 }
+             },
+             'ContainerFormats': {
+                 'public.heif-standard': {
+                     'HeifSubtypes': ['public.avci', 'public.heic', 'public.heif']
+                 }
+             },
+             'Vendor': {
+                 'com.apple': {
+                     'OSVersion': [10, 13, 3],
+                     'OSBuildVersion': '17D102',
+                     'LivePhotoFormatVersion': '1'
+                 }
+             }
         }
         media_capabilities_json = json.JSONEncoder().encode(media_capabilities)
         media_capabilities_binary = media_capabilities_json.encode("utf-8")
